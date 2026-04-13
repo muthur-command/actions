@@ -2,9 +2,9 @@ name: Test Helpers
 
 on:
   pull_request:
-    branches: ["master"]
+    branches: ["main", "master", "mc"]
   push:
-    branches: ["master"]
+    branches: ["main", "master", "mc"]
 
 jobs:
   jq:
@@ -93,7 +93,7 @@ jobs:
       - name: Validate image
         if: matrix.file == 'config'
         run: |
-          if [[ '${{ steps.info.outputs.image }}' != '"ghcr.io/example/{arch}-example"' ]]; then
+          if [[ '${{ steps.info.outputs.image }}' != '"ghcr.io/muthur-command/{arch}-mcio-example"' ]]; then
             exit 1
           fi
 
@@ -118,6 +118,6 @@ jobs:
 
       - name: Validate description
         run: |
-          if [[ '${{ steps.info.outputs.description }}' != '"An example Home Assistant app"' ]]; then
+          if [[ '${{ steps.info.outputs.description }}' != '"An example MCOS add-on"' ]]; then
             exit 1
           fi

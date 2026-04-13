@@ -1,6 +1,6 @@
-# Home Assistant Helper: Version
+# Muthur Command Helper: Version
 
-Determines **version**, **stability**, **channel**, and **publish** status for Home Assistant builds based on the build type and GitHub event trigger.
+Determines **version**, **stability**, **channel**, and **publish** status for Muthur Command builds based on the build type and GitHub event trigger.
 
 ## Inputs
 

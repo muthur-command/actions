@@ -1,5 +1,5 @@
-name: 'Home Assistant helper: version'
-description: 'GitHub action helper: version'
+name: 'MCOS helper: version'
+description: 'Resolve version, stability, channel, and publish flags for MCOS CI (CalVer / release / workflow_dispatch)'
 inputs:
   type:
     description: The type of target to check against (core, supervisor, plugin, generic)

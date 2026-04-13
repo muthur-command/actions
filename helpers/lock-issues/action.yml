@@ -1,5 +1,5 @@
-name: "Home Assitant helper: Lock old issues/PRs"
-description: "Github action helper: Lock old issues/PRs"
+name: "MCOS helper: lock old issues/PRs"
+description: "Lock inactive issues and pull requests (wraps dessant/lock-threads)"
 
 inputs:
   issue-inactive-days:

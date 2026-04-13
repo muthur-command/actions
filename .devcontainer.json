@@ -1,4 +1,4 @@
 {
-	"name": "home-assistant/actions",
+	"name": "muthur-command/actions",
 	"image": "mcr.microsoft.com/devcontainers/base:bullseye"
 }

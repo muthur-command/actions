@@ -1,5 +1,5 @@
-name: 'Home Assistant helper: info'
-description: 'GitHub action helper: info'
+name: 'MCOS helper: info'
+description: 'Read add-on / app build metadata (arch, image, version) from config files (P0 ghcr.io/muthur-command/)'
 inputs:
   path:
     description: The relative dir path to where the type files are

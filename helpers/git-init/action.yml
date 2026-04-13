@@ -1,12 +1,12 @@
-name: 'Home Assistant helper: git-init'
-description: 'GitHub action helper: git-init'
+name: 'MCOS helper: git-init'
+description: 'Configure git user for CI commits'
 inputs:
   name:
     required: true
-    default: 'Home Assistant'
+    default: 'Muthur Command'
   email:
     required: true
-    default: 'hello@home-assistant.io'
+    default: 'hello@muthur-command.com'
   token:
     required: true
 runs:

@@ -1,6 +1,6 @@
-# Home Assistant Helper: Info
+# MCOS helper: info
 
-Extracts build metadata (supported architectures, Docker image, and version) from configuration files.
+Extracts build metadata (supported architectures, Docker image, and version) from add-on configuration files. Registry and naming should follow **P0** (**`ghcr.io/muthur-command/`**, **`{arch}-mcio-*`**, **`io.mcio.*`** labels where applicable).
 
 ## Inputs
 

@@ -1,5 +1,5 @@
-name: 'Home Assistant helper: verify-version'
-description: 'GitHub action helper: verify-version'
+name: 'MCOS helper: verify-version'
+description: 'Assert branch/tag name matches project version (read_version.py)'
 inputs:
   ignore-dev:
     description: Skip check if the branch is 'dev'

@@ -1,5 +1,5 @@
-name: 'Home Assistant helper: find-addons'
-description: 'Find all add-ons directories in the repository'
+name: 'MCOS helper: find-addons'
+description: 'Find add-on directories (config.json/yaml) in the repository'
 outputs:
   addons:
     description: Returns a list of all add-ons in the repository

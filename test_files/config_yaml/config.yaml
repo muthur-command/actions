@@ -1,12 +1,12 @@
 ---
 name: "Example App"
 slug: "example_app"
-description: "An example Home Assistant app"
+description: "An example MCOS add-on"
 arch:
   - aarch64
   - armv7
   - armhf
   - amd64
   - i386
-image: "ghcr.io/example/{arch}-example"
+image: "ghcr.io/muthur-command/{arch}-mcio-example"
 version: "1.0.0"

@@ -1,5 +1,5 @@
-name: 'Home Assistant helper: JQ'
-description: 'GitHub action helper: JQ'
+name: 'MCOS helper: jq'
+description: 'Validate JSON files under a path with jq'
 inputs:
   path:
     description: The relative dir path to where this should run

@@ -1,10 +1,14 @@
-name: 'Home Assistant helper: version-push'
-description: 'GitHub action helper: version-push'
+name: 'MCOS helper: version-push'
+description: 'Bump a version field in the MCOS version JSON repo and push (see P0 version contract)'
 inputs:
+  version-repository:
+    required: false
+    default: 'https://github.com/muthur-command/version.git'
+    description: 'Git clone URL for the version JSON repository (default muthur-command/version per P0)'
   key:
     required: true
     default: ''
-    description: "JSON key to replace version with, e.g. supervisor, homeassistant.default or hassos[] to replace for all properties in hassos."
+    description: 'JSON key path to set, e.g. supervisor, muthurcommand.default, mcos, or mcos[] for all entries under mcos'
   key-description:
     required: false
     description: "Human Friendly description of key which is beeing changed for git commit message."
@@ -41,7 +45,9 @@ runs:
         fi
 
     - shell: bash
-      run: git clone --depth 1 https://github.com/home-assistant/version.git /tmp/version
+      env:
+        VERSION_REPO: ${{ inputs.version-repository }}
+      run: git clone --depth 1 "$VERSION_REPO" /tmp/version
 
     - shell: bash
       env:

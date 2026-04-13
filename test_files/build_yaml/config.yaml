@@ -1,7 +1,7 @@
 ---
 name: "Example App"
 slug: "example_app"
-description: "An example Home Assistant app"
+description: "An example MCOS add-on"
 arch:
   - aarch64
   - armv7
