@@ -1,6 +1,6 @@
 # actions
 
-Reusable **GitHub Actions** and helpers for **MCOS** / **muthur-command** CI workflows. Naming and registry defaults follow **P0** — see `mc_docs/MCOS-迁移-P0-规范冻结.md` and `mc_docs/p0-specs/` (e.g. **`MCOS-MIGRATION-SPEC-v0.1.md`**, **`BRAND-镜像命名-v0.1.md`**): organization **`muthur-command`**, default container namespace **`ghcr.io/muthur-command/`**, suggested OCI labels **`io.mcio.*`**.
+Reusable **GitHub Actions** and helpers for **MCOS** / **muthur-command** CI workflows.
 
 ## Helpers
 
