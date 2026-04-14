@@ -4,7 +4,7 @@ inputs:
   version-repository:
     required: false
     default: 'https://github.com/muthur-command/version.git'
-    description: 'Git clone URL for the version JSON repository (default muthur-command/version per P0)'
+    description: 'Git clone URL for the version JSON repository'
   key:
     required: true
     default: ''

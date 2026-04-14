@@ -2,6 +2,8 @@
 
 Determines **version**, **stability**, **channel**, and **publish** status for Muthur Command builds based on the build type and GitHub event trigger.
 
+中文文档: [`README.zh-CN.md`](./README.zh-CN.md)
+
 ## Inputs
 
 | Input  | Required | Default   | Description                                              |

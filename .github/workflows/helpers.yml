@@ -2,9 +2,9 @@ name: Test Helpers
 
 on:
   pull_request:
-    branches: ["main", "master", "mc"]
+    branches: ["mc"]
   push:
-    branches: ["main", "master", "mc"]
+    branches: ["mc"]
 
 jobs:
   jq:

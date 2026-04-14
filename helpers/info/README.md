@@ -1,6 +1,8 @@
 # MCOS helper: info
 
-Extracts build metadata (supported architectures, Docker image, and version) from add-on configuration files. Registry and naming should follow **P0** (**`ghcr.io/muthur-command/`**, **`{arch}-mcio-*`**, **`io.mcio.*`** labels where applicable).
+Extracts build metadata (supported architectures, Docker image, and version) from add-on configuration files.
+
+中文文档: [`README.zh-CN.md`](./README.zh-CN.md)
 
 ## Inputs
 
