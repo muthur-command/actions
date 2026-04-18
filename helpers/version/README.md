@@ -122,9 +122,3 @@ YYYY.MM.N.devDDNN
 ```
 
 Example: `2024.12.3.dev1405` = December 2024, patch 3, 14th day, 5 commits since midnight UTC.
-
-## Origin
-
-- **Upstream:** This helper was ported from [home-assistant/actions](https://github.com/home-assistant/actions), the upstream repository that provides GitHub Actions for Home Assistant workflows.
-- **In this repo:** **Muthur Command** maintains this helper for Muthur Command OS CI; its behavior may diverge from upstream over time.
-- **License:** Code inherited from upstream remains **Apache-2.0**; see [`LICENSE`](../../LICENSE).
