@@ -1,8 +1,8 @@
-name: 'MCOS helper: version'
-description: 'Resolve version, stability, channel, and publish flags for MCOS CI (CalVer / release / workflow_dispatch)'
+name: 'Muthur Command Helper: version'
+description: 'Resolve version, stability, channel, and publish flags for Muthur Command OS CI (CalVer / release / workflow_dispatch)'
 inputs:
   type:
-    description: The type of target to check against (core, supervisor, plugin, generic)
+    description: The type of target to check against (mc_bd, mc_fd, supervisor, plugin, generic)
     required: false
     default: 'generic'
 outputs:
@@ -50,7 +50,7 @@ runs:
         if [[ ! -z "$GITHUB_EVENT_INPUTS_VERSION" ]]; then
           version="$GITHUB_EVENT_INPUTS_VERSION"
 
-        elif [[ "${version}" =~ (master|main) && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
+        elif [[ "${version}" =~ (mc) && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
           today="$(date --utc '+%Y-%m-%d')"
           midnight_timestamp="$(date --utc +%s --date=$today)"
           calver_date="$(date --utc --date=$today '+%Y.%m')"
@@ -67,7 +67,7 @@ runs:
         elif [[ "${version}" == "merge" && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
           version="${{ github.sha }}"
 
-        elif [[ "${version}" == "dev" && "$INPUTS_TYPE" == "core" ]]; then
+        elif [[ "${version}" == "dev" && "$INPUTS_TYPE" == "mc_bd" ]]; then
           python3 -m pip install uv
           uv pip install packaging tomli
           uv pip install .
@@ -102,7 +102,7 @@ runs:
             echo "channel=dev" >> "$GITHUB_OUTPUT"
           fi
 
-        elif [[ "$INPUTS_TYPE" == "core" ]]; then
+        elif [[ "$INPUTS_TYPE" == "mc_bd" ]]; then
           if [[ "${{ steps.version.outputs.version }}" =~ dev ]]; then
             echo "channel=dev" >> "$GITHUB_OUTPUT"
           elif [[ "${{ steps.version.outputs.version }}" =~ b ]]; then
@@ -132,7 +132,7 @@ runs:
             echo "publish=false" >> "$GITHUB_OUTPUT"
           fi
 
-        elif [[ "$INPUTS_TYPE" == "core" ]]; then
+        elif [[ "$INPUTS_TYPE" == "mc_bd" ]]; then
           if [[ "$EVENT_NAME" == "release" ]]; then
             echo "publish=true" >> "$GITHUB_OUTPUT"
           else

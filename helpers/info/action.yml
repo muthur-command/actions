@@ -1,4 +1,4 @@
-name: 'MCOS helper: info'
+name: 'Muthur Command Helper: info'
 description: 'Read add-on / app build metadata (arch, image, version) from config files'
 inputs:
   path:

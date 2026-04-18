@@ -1,4 +1,4 @@
-name: "MCOS helper: lock old issues/PRs"
+name: "Muthur Command Helper: lock old issues/PRs"
 description: "Lock inactive issues and pull requests (wraps dessant/lock-threads)"
 
 inputs:

@@ -1,4 +1,4 @@
-name: 'MCOS helper: git-init'
+name: 'Muthur Command helper: git-init'
 description: 'Configure git user for CI commits'
 inputs:
   name:
@@ -6,7 +6,7 @@ inputs:
     default: 'Muthur Command'
   email:
     required: true
-    default: 'hello@muthur-command.com'
+    default: 'morty@muthur-command.com'
   token:
     required: true
 runs:

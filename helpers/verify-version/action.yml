@@ -1,4 +1,4 @@
-name: 'MCOS helper: verify-version'
+name: 'Muthur Command Helper: verify-version'
 description: 'Assert branch/tag name matches project version (read_version.py)'
 inputs:
   ignore-dev:
@@ -6,7 +6,7 @@ inputs:
     required: false
     default: false
   ignore-master:
-    description: Skip check if the branch is 'master'
+    description: Skip check if the branch is 'mc'
     required: false
     default: false
 runs:
@@ -32,7 +32,7 @@ runs:
 
         if [[ "$INPUTS_IGNORE_DEV" =~ true|True ]] && [ "${branch_version}" == "dev" ]; then
           exit 0
-        elif [[ "$INPUTS_IGNORE_MASTER" =~ true|True ]] && [ "${branch_version}" == "master" ]; then
+        elif [[ "$INPUTS_IGNORE_MASTER" =~ true|True ]] && [ "${branch_version}" == "mc" ]; then
           exit 0
         elif [ "${setup_version}" != "${branch_version}" ]; then
           echo "Version of tag ${branch_version} don't match with ${setup_version}!"

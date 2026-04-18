@@ -118,6 +118,6 @@ jobs:
 
       - name: Validate description
         run: |
-          if [[ '${{ steps.info.outputs.description }}' != '"An example MCOS add-on"' ]]; then
+          if [[ '${{ steps.info.outputs.description }}' != '"An example Muthur Command OS app"' ]]; then
             exit 1
           fi

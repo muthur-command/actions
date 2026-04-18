@@ -1,4 +1,4 @@
-name: 'MCOS helper: find-addons'
+name: 'Muthur Command Helper: find-addons'
 description: 'Find add-on directories (config.json/yaml) in the repository'
 outputs:
   addons:

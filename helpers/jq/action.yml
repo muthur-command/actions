@@ -1,4 +1,4 @@
-name: 'MCOS helper: jq'
+name: 'Muthur Command Helper: jq'
 description: 'Validate JSON files under a path with jq'
 inputs:
   path:

@@ -1,7 +1,7 @@
 ---
 name: "Example App"
 slug: "example_app"
-description: "An example MCOS add-on"
+description: "An example Muthur Command OS app"
 arch:
   - aarch64
   - armv7

@@ -1,5 +1,5 @@
-name: 'MCOS helper: version-push'
-description: 'Bump a version field in the MCOS version JSON repo and push (see P0 version contract)'
+name: 'Muthur Command Helper: version-push'
+description: 'Bump a version field in the Muthur Command OS version JSON repo and push (see P0 version contract)'
 inputs:
   version-repository:
     required: false

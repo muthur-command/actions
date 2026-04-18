@@ -1,8 +1,8 @@
-# MCOS helper: info
-
-Extracts build metadata (supported architectures, Docker image, and version) from add-on configuration files.
+# Muthur Command Helper: Info
 
 中文文档: [`README.zh-CN.md`](./README.zh-CN.md)
+
+Extracts build metadata (supported architectures, Docker image, and version) from configuration files.
 
 ## Inputs
 
@@ -46,19 +46,19 @@ Resolved from `config.*` (app configuration, first matching extension):
 | `.name`        | yes      | `"Example App"`                                |
 | `.version`     | yes      | `"2024.12.1"`                                  |
 | `.slug`        | yes      | `"example_app"`                                |
-| `.description` | yes      | `"An example Home Assistant app"`              |
+| `.description` | yes      | `"An example Muthur Command app"`              |
 | `.arch`        | yes      | `["amd64","aarch64"]`                          |
-| `.image`       | no       | `"ghcr.io/home-assistant/{arch}-app-example"`  |
-| `.url`         | no       | `"https://github.com/home-assistant/example"`  |
+| `.image`       | no       | `"ghcr.io/muthur-command/{arch}-app-example"`  |
+| `.url`         | no       | `"https://github.com/muthur-command/addons-example"`  |
 
-A warning is emitted for each required option that is missing or null. See [App Configuration](https://developers.home-assistant.io/docs/apps/configuration) for full documentation.
+A warning is emitted for each required option that is missing or null. See [App Configuration](https://www.muthur-command.com/docs/docs/add-ons/configuration) for full documentation.
 
 If no config file exists, all values default to `""`.
 
 ## Example Usage
 
 ```yaml
-- uses: home-assistant/actions/helpers/info@master
+- uses: muthur-command/actions/helpers/info@mc
   id: info
   with:
     path: my-app

@@ -1,14 +1,14 @@
 # Muthur Command Helper: Version
 
-Determines **version**, **stability**, **channel**, and **publish** status for Muthur Command builds based on the build type and GitHub event trigger.
-
 中文文档: [`README.zh-CN.md`](./README.zh-CN.md)
+
+Determines **version**, **stable**, **channel**, and **publish** status for **Muthur Command** builds based on the build type and GitHub event trigger.
 
 ## Inputs
 
 | Input  | Required | Default   | Description                                              |
 |--------|----------|-----------|----------------------------------------------------------|
-| `type` | no       | `generic` | Target type: `core`, `supervisor`, `plugin`, or `generic` |
+| `type` | no       | `generic` | Target type: `mc_bd`, `mc_fd`, `supervisor`, `plugin`, or `generic` |
 
 ## Outputs
 
@@ -54,7 +54,7 @@ These two types produce identical outputs.
 
 ---
 
-## Build Type: `core`
+## Build Type: `mc_bd/mc_fd`
 
 | Trigger              | version                          | stable  | channel | publish |
 |----------------------|----------------------------------|---------|---------|---------|
@@ -72,7 +72,7 @@ These two types produce identical outputs.
   - Otherwise → `stable`
 - **Only releases are published** (`event_name == release`). Pushes, PRs, and other events all produce `publish=false`.
 - **Nightly dev builds** are triggered by a push to the `dev` branch, which installs the package via `uv` and runs `script/version_bump.py nightly` to compute the next dev version from `pyproject.toml`.
-- The CalVer dev versioning used by plugin/supervisor/generic does **not** apply to core.
+- The CalVer dev versioning used by plugin/supervisor/generic does **not** apply to mc_bd.
 
 ---
 
@@ -103,14 +103,14 @@ github.event.inputs.version set?
    │  └─ YES → CalVer dev: YYYY.MM.X.devDDNN
    ├─ ref is "merge" AND type is supervisor/plugin/generic?
    │  └─ YES → commit SHA
-   ├─ ref is "dev" AND type is core?
+   ├─ ref is "dev" AND type is mc_bd?
    │  └─ YES → nightly bump via version_bump.py
    └─ otherwise → extract version from ref (last path segment)
 ```
 
 ## CalVer Dev Version Format
 
-Used by `supervisor`, `plugin`, and `generic` on pushes to master/main:
+Used by `supervisor`, `plugin`, and `generic` on pushes to mc branch:
 
 ```
 YYYY.MM.N.devDDNN
@@ -122,3 +122,9 @@ YYYY.MM.N.devDDNN
 ```
 
 Example: `2024.12.3.dev1405` = December 2024, patch 3, 14th day, 5 commits since midnight UTC.
+
+## Origin
+
+- **Upstream:** This helper was ported from [home-assistant/actions](https://github.com/home-assistant/actions), the upstream repository that provides GitHub Actions for Home Assistant workflows.
+- **In this repo:** **Muthur Command** maintains this helper for Muthur Command OS CI; its behavior may diverge from upstream over time.
+- **License:** Code inherited from upstream remains **Apache-2.0**; see [`LICENSE`](../../LICENSE).

@@ -1,7 +1,7 @@
 {
     "name": "Example App",
     "slug": "example_app",
-    "description": "An example MCOS add-on",
+    "description": "An example Muthur Command OS app",
     "arch": ["aarch64","armv7","armhf","amd64","i386"],
     "image": "ghcr.io/muthur-command/{arch}-mcio-example",
     "version": "1.0.0"

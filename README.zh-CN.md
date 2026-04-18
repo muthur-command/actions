@@ -1,22 +1,20 @@
-# Actions
+# actions
 
-用于 **MCOS** / **muthur-command** CI 工作流的可复用 **GitHub Actions** 与辅助组件。
+面向 **Muthur Command** 工作流的可复用 **GitHub Actions** 与各 helper。
 
 ## 辅助组件
 
-| 组件 | 路径 |
-|--------|------|
-| git-init | [helpers/git-init](./helpers/git-init/action.yml) |
-| info | [helpers/info](./helpers/info/action.yml) |
-| jq | [helpers/jq](./helpers/jq/action.yml) |
-| verify-version | [helpers/verify-version](./helpers/verify-version/action.yml) |
-| version | [helpers/version](./helpers/version/action.yml) |
-| version-push | [helpers/version-push](./helpers/version-push/action.yml) |
-| find-addons | [helpers/find-addons](./helpers/find-addons/action.yml) |
-| lock-issues | [helpers/lock-issues](./helpers/lock-issues/action.yml) |
+_下列 GitHub Action helper 视为 **Muthur Command** 在 GitHub 上的组织内部工具，可能在没有事先公告的情况下发生变更。_
 
-这些 helper 为 **muthur-command** 组织内部使用；行为可能在没有主版本公告的情况下变更。生产工作流中请固定 tag 或 SHA。
+- [git-init](./helpers/git-init/action.yml)
+- [info](./helpers/info/action.yml)
+- [jq](./helpers/jq/action.yml)
+- [verify-version](./helpers/verify-version/action.yml)
+- [version](./helpers/version/action.yml)
+- [version-push](./helpers/version-push/action.yml)
 
-## 衍生说明
+## 来源
 
-源自上游的组件保持 **Apache-2.0**（见 **LICENSE**）。MCOS 的 **NOTICE** 文件待法务批准后补充。
+- **上游：** [home-assistant/actions](https://github.com/home-assistant/actions) — 面向 Home Assistant 工作流的 GitHub Actions，本目录由其移植而来。
+- **本仓库：** **Muthur Command** 在此维护该副本，供 **Muthur Command OS** 的 CI 使用；helpers 及行为可能随时间与上游产生差异。
+- **许可：** 自上游继承的代码仍为 **Apache-2.0**；见 [`LICENSE`](./LICENSE)。
