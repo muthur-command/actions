@@ -49,8 +49,10 @@ jobs:
 
       - name: Validate channel output
         run: |
-          echo "${{ steps.version.outputs.channel }}";
-          if [[ '${{ steps.version.outputs.channel }}' != '' ]]; then
+          echo "${{ steps.version.outputs.channel }}"
+          # Default channel for unknown type is non-empty (e.g. dev); fail only when empty.
+          if [[ -z "${{ steps.version.outputs.channel }}" ]]; then
+            echo "::error::expected non-empty channel output"
             exit 1
           fi
 
