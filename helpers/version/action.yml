@@ -64,15 +64,23 @@ runs:
           calver_dev="$(date --utc --date=$today '+.dev%d')$(printf "%02d" ${commit_count})"
           version="${base_ver}${calver_dev}"
 
+        elif [[ "$INPUTS_TYPE" =~ (mc_bd|mc_fd) && "$EVENT_NAME" != "release" ]]; then
+          # mc_bd/mc_fd 在非 release 场景统一生成 CalVer dev 版本，避免把分支名（如 mc_fd）写入 version/*.json
+          today="$(date --utc '+%Y-%m-%d')"
+          midnight_timestamp="$(date --utc +%s --date=$today)"
+          calver_date="$(date --utc --date=$today '+%Y.%m')"
+          if tag=$(git describe --tags --abbrev=0 --match="${calver_date}.*" 2>/dev/null)
+          then
+            base_ver="$(echo $tag | awk -F. '{printf "%s.%s.%d",$1,$2,$3+1}')"
+          else
+            base_ver="${calver_date}.0"
+          fi
+          commit_count="$(git rev-list --count --since=$midnight_timestamp HEAD)"
+          calver_dev="$(date --utc --date=$today '+.dev%d')$(printf "%02d" ${commit_count})"
+          version="${base_ver}${calver_dev}"
+
         elif [[ "${version}" == "merge" && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
           version="${{ github.sha }}"
-
-        elif [[ "${version}" == "dev" && "$INPUTS_TYPE" == "mc_bd" ]]; then
-          python3 -m pip install uv
-          uv pip install packaging tomli
-          uv pip install .
-          python3 script/version_bump.py nightly
-          version="$(python3 ${{ github.action_path }}/../read_version.py)"
         fi
 
         if [[ ! -z "$GITHUB_EVENT_INPUTS_STABLE" ]]; then
