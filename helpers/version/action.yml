@@ -102,7 +102,7 @@ runs:
             echo "channel=dev" >> "$GITHUB_OUTPUT"
           fi
 
-        elif [[ "$INPUTS_TYPE" == "mc_bd" ]]; then
+        elif [[ "$INPUTS_TYPE" == "mc_bd" ]] || [[ "$INPUTS_TYPE" == "mc_fd" ]]; then
           if [[ "${{ steps.version.outputs.version }}" =~ dev ]]; then
             echo "channel=dev" >> "$GITHUB_OUTPUT"
           elif [[ "${{ steps.version.outputs.version }}" =~ b ]]; then
@@ -110,6 +110,9 @@ runs:
           else
             echo "channel=stable" >> "$GITHUB_OUTPUT"
           fi
+        else
+          # 未知 type、或远端旧版 helper 未识别 mc_fd 等：仍须输出 channel，避免 version-push 读到空路径 /tmp/version/.json
+          echo "channel=dev" >> "$GITHUB_OUTPUT"
         fi
 
     - shell: bash
@@ -132,10 +135,12 @@ runs:
             echo "publish=false" >> "$GITHUB_OUTPUT"
           fi
 
-        elif [[ "$INPUTS_TYPE" == "mc_bd" ]]; then
+        elif [[ "$INPUTS_TYPE" == "mc_bd" ]] || [[ "$INPUTS_TYPE" == "mc_fd" ]]; then
           if [[ "$EVENT_NAME" == "release" ]]; then
             echo "publish=true" >> "$GITHUB_OUTPUT"
           else
             echo "publish=false" >> "$GITHUB_OUTPUT"
           fi
+        else
+          echo "publish=false" >> "$GITHUB_OUTPUT"
         fi

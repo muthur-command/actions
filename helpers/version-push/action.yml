@@ -57,6 +57,13 @@ runs:
         INPUTS_EXCLUDE_LIST: ${{ inputs['exclude-list'] }}
       run: |
         temp=$(mktemp)
+        CHANNEL="${INPUTS_CHANNEL:-dev}"
+        json="/tmp/version/${CHANNEL}.json"
+        if [[ ! -f "$json" ]]; then
+          echo "::error::Version repo channel file missing: ${json} (channel was empty or invalid; default is dev)"
+          ls -la /tmp/version || true
+          exit 1
+        fi
         # Check if exclude list is not empty
         if [[ "$INPUTS_EXCLUDE_LIST" != "[]" ]]; then
           # Strip the [] suffix from INPUTS_KEY
@@ -72,11 +79,11 @@ runs:
                 .value = $version
               end
             )
-          ' "/tmp/version/$INPUTS_CHANNEL.json" > "${temp}"
+          ' "$json" > "${temp}"
         else
-          jq ".$INPUTS_KEY |= \"$INPUTS_VERSION\"" "/tmp/version/$INPUTS_CHANNEL.json" > "${temp}"
+          jq ".$INPUTS_KEY |= \"$INPUTS_VERSION\"" "$json" > "${temp}"
         fi
-        mv "${temp}" "/tmp/version/$INPUTS_CHANNEL.json"
+        mv "${temp}" "$json"
 
     - shell: bash
       env:
