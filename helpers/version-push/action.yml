@@ -90,8 +90,12 @@ runs:
         INPUTS_VERSION: ${{ inputs.version }}
       run: |
         cd /tmp/version
-        git commit -am "Bump ${{ steps.validate-input.outputs.key-description }} to $INPUTS_VERSION"
-        git push
+        if git diff --quiet && git diff --cached --quiet; then
+          echo "Version already set to ${INPUTS_VERSION}, skipping commit"
+        else
+          git commit -am "Bump ${{ steps.validate-input.outputs.key-description }} to $INPUTS_VERSION"
+          git push
+        fi
 
     - shell: bash
       run: rm -rf /tmp/version
