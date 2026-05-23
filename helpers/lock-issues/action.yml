@@ -1,5 +1,5 @@
 name: "Muthur Command Helper: lock old issues/PRs"
-description: "Lock inactive issues and pull requests (wraps dessant/lock-threads)"
+description: "Lock inactive issues and pull requests via GitHub API (avoids dessant/lock-threads token length validation)"
 
 inputs:
   issue-inactive-days:
@@ -22,11 +22,56 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: dessant/lock-threads@v5.0.1
+    - uses: actions/github-script@ed597411d8f924073aeca5c2aedca0c93086e7c5 # v8.0.0
       with:
-        issue-inactive-days: ${{ inputs.issue-inactive-days }}
-        exclude-issue-created-before: ${{ inputs.exclude-issue-created-before }}
-        issue-lock-reason: ""
-        pr-inactive-days: ${{ inputs.pr-inactive-days }}
-        exclude-pr-created-before: ${{ inputs.exclude-pr-created-before }}
-        pr-lock-reason: ""
+        script: |
+          const { owner, repo } = context.repo;
+
+          function getISOTimestamp(date) {
+            return date.toISOString().split(".")[0] + "Z";
+          }
+
+          function getUpdatedTimestamp(days) {
+            const ttl = days * 24 * 60 * 60 * 1000;
+            return getISOTimestamp(new Date(Date.now() - ttl));
+          }
+
+          function buildQuery({ inactiveDays, excludeCreatedBefore, threadType }) {
+            const updatedTime = getUpdatedTimestamp(inactiveDays);
+            let query = `repo:${owner}/${repo} updated:<${updatedTime} is:closed is:unlocked`;
+            if (excludeCreatedBefore) {
+              query += ` created:>${getISOTimestamp(new Date(excludeCreatedBefore))}`;
+            }
+            query += threadType === "pr" ? " is:pr" : " is:issue";
+            return query;
+          }
+
+          async function lockThreads({ inactiveDays, excludeCreatedBefore, threadType }) {
+            const query = buildQuery({ inactiveDays, excludeCreatedBefore, threadType });
+            const { data } = await github.rest.search.issuesAndPullRequests({
+              q: query,
+              sort: "updated",
+              order: "desc",
+              per_page: 50,
+            });
+
+            for (const item of data.items.filter((thread) => !thread.locked)) {
+              await github.rest.issues.lock({
+                owner,
+                repo,
+                issue_number: item.number,
+              });
+              core.info(`Locked ${threadType} #${item.number}`);
+            }
+          }
+
+          await lockThreads({
+            inactiveDays: Number.parseInt("${{ inputs.issue-inactive-days }}", 10),
+            excludeCreatedBefore: "${{ inputs.exclude-issue-created-before }}",
+            threadType: "issue",
+          });
+          await lockThreads({
+            inactiveDays: Number.parseInt("${{ inputs.pr-inactive-days }}", 10),
+            excludeCreatedBefore: "${{ inputs.exclude-pr-created-before }}",
+            threadType: "pr",
+          });
