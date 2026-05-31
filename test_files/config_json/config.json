@@ -3,6 +3,6 @@
     "slug": "example_app",
     "description": "An example Muthur Command OS app",
     "arch": ["aarch64","armv7","armhf","amd64","i386"],
-    "image": "ghcr.io/muthur-command/{arch}-mcio-example",
+    "image": "ghcr.io/muthur-command/{arch}-mcos-example",
     "version": "1.0.0"
 }

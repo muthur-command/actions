@@ -95,7 +95,7 @@ jobs:
       - name: Validate image
         if: matrix.file == 'config'
         run: |
-          if [[ '${{ steps.info.outputs.image }}' != '"ghcr.io/muthur-command/{arch}-mcio-example"' ]]; then
+          if [[ '${{ steps.info.outputs.image }}' != '"ghcr.io/muthur-command/{arch}-mcos-example"' ]]; then
             exit 1
           fi
 
