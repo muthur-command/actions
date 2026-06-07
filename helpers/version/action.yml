@@ -40,6 +40,32 @@ runs:
         REF: ${{ github.event_name == 'release' && github.event.release.tag_name || github.ref }}
         UV_SYSTEM_PYTHON: "true"
       run: |
+        # actions/checkout defaults to fetch-depth: 1 (shallow). CalVer devDDNN uses
+        # `git rev-list --count --since=midnight`, which under-counts without full history.
+        ensure_git_history_for_calver() {
+          if [[ "$(git rev-parse --is-shallow-repository 2>/dev/null)" != "true" ]]; then
+            return 0
+          fi
+          echo "Shallow clone detected; fetching history for accurate devDDNN commit count"
+          git fetch --tags --prune --unshallow 2>/dev/null || git fetch --tags --prune --depth=1000
+        }
+
+        calver_dev_version() {
+          ensure_git_history_for_calver
+          today="$(date --utc '+%Y-%m-%d')"
+          midnight_timestamp="$(date --utc +%s --date=$today)"
+          calver_date="$(date --utc --date=$today '+%Y.%m')"
+          if tag=$(git describe --tags --abbrev=0 --match="${calver_date}.*" 2>/dev/null)
+          then
+            base_ver="$(echo $tag | awk -F. '{printf "%s.%s.%d",$1,$2,$3+1}')"
+          else
+            base_ver="${calver_date}.0"
+          fi
+          commit_count="$(git rev-list --count --since=$midnight_timestamp HEAD)"
+          calver_dev="$(date --utc --date=$today '+.dev%d')$(printf "%02d" ${commit_count})"
+          echo "${base_ver}${calver_dev}"
+        }
+
         version=$(echo "$REF" | awk -F"/" '{print $NF}' )
 
         if [[ "${version}" == "" ]]; then
@@ -51,33 +77,11 @@ runs:
           version="$GITHUB_EVENT_INPUTS_VERSION"
 
         elif [[ "${version}" =~ (mc) && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
-          today="$(date --utc '+%Y-%m-%d')"
-          midnight_timestamp="$(date --utc +%s --date=$today)"
-          calver_date="$(date --utc --date=$today '+%Y.%m')"
-          if tag=$(git describe --tags --abbrev=0 --match="${calver_date}.*" 2>/dev/null)
-          then
-            base_ver="$(echo $tag | awk -F. '{printf "%s.%s.%d",$1,$2,$3+1}')"
-          else
-            base_ver="${calver_date}.0"
-          fi
-          commit_count="$(git rev-list --count --since=$midnight_timestamp HEAD)"
-          calver_dev="$(date --utc --date=$today '+.dev%d')$(printf "%02d" ${commit_count})"
-          version="${base_ver}${calver_dev}"
+          version="$(calver_dev_version)"
 
         elif [[ "$INPUTS_TYPE" =~ (mc_bd|mc_fd) && "$EVENT_NAME" != "release" ]]; then
           # mc_bd/mc_fd 在非 release 场景统一生成 CalVer dev 版本，避免把分支名（如 mc_fd）写入 version/*.json
-          today="$(date --utc '+%Y-%m-%d')"
-          midnight_timestamp="$(date --utc +%s --date=$today)"
-          calver_date="$(date --utc --date=$today '+%Y.%m')"
-          if tag=$(git describe --tags --abbrev=0 --match="${calver_date}.*" 2>/dev/null)
-          then
-            base_ver="$(echo $tag | awk -F. '{printf "%s.%s.%d",$1,$2,$3+1}')"
-          else
-            base_ver="${calver_date}.0"
-          fi
-          commit_count="$(git rev-list --count --since=$midnight_timestamp HEAD)"
-          calver_dev="$(date --utc --date=$today '+.dev%d')$(printf "%02d" ${commit_count})"
-          version="${base_ver}${calver_dev}"
+          version="$(calver_dev_version)"
 
         elif [[ "${version}" == "merge" && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
           version="${{ github.sha }}"

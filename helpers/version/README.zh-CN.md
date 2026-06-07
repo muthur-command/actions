@@ -47,6 +47,7 @@
 ### 说明
 - **PR 构建永不发布。** 只要存在 `github.head_ref`（PR 事件会设置），就会强制 `publish=false`。
 - **Push 到 master** 会生成 [CalVer](https://calver.org/) 开发版本：基线为 `YYYY.MM.N`（从最近匹配 tag 递增），后缀为 `.devDDNN`，其中 `DD` 为 UTC 日，`NN` 为当天 UTC 零点后的提交计数（补零）。
+- **浅克隆注意**：`actions/checkout` 默认 `fetch-depth: 1`，会导致 `NN` 恒为 `01`。本 action 在计算 CalVer dev 版本前会自动 `git fetch --unshallow`；也可在 workflow 的 init job 显式设置 `fetch-depth: 0`。
 - **稳定发布** 的 channel 为 `beta`（不是 `stable`），这是 plugin/supervisor 类型的既定设计。
 - **说明：** `supervisor` 过去会在版本解析后额外修改 `supervisor/const.py` 中的 `SUPERVISOR_VERSION`，该副作用已移除。
 
