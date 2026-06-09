@@ -46,7 +46,7 @@ runs:
           if [[ "$(git rev-parse --is-shallow-repository 2>/dev/null)" != "true" ]]; then
             return 0
           fi
-          echo "Shallow clone detected; fetching history for accurate devDDNN commit count"
+          echo "Shallow clone detected; fetching history for accurate devDDNN commit count" >&2
           git fetch --tags --prune --unshallow 2>/dev/null || git fetch --tags --prune --depth=1000
         }
 
