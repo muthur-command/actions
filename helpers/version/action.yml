@@ -79,8 +79,8 @@ runs:
         elif [[ "${version}" =~ (mc) && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
           version="$(calver_dev_version)"
 
-        elif [[ "$INPUTS_TYPE" =~ (mc_bd|mc_fd) && "$EVENT_NAME" != "release" ]]; then
-          # mc_bd/mc_fd 在非 release 场景统一生成 CalVer dev 版本，避免把分支名（如 mc_fd）写入 version/*.json
+        elif [[ "$INPUTS_TYPE" =~ (mc_bd|mc_fd|landingpage) && "$EVENT_NAME" != "release" ]]; then
+          # mc_bd/mc_fd/landingpage 在非 release 场景统一生成 CalVer dev 版本，避免把分支名写入 version/*.json
           version="$(calver_dev_version)"
 
         elif [[ "${version}" == "merge" && "$INPUTS_TYPE" =~ (supervisor|plugin|generic) ]]; then
@@ -114,7 +114,7 @@ runs:
             echo "channel=dev" >> "$GITHUB_OUTPUT"
           fi
 
-        elif [[ "$INPUTS_TYPE" == "mc_bd" ]] || [[ "$INPUTS_TYPE" == "mc_fd" ]]; then
+        elif [[ "$INPUTS_TYPE" =~ (mc_bd|mc_fd|landingpage) ]]; then
           if [[ "${{ steps.version.outputs.version }}" =~ dev ]]; then
             echo "channel=dev" >> "$GITHUB_OUTPUT"
           elif [[ "${{ steps.version.outputs.version }}" =~ b ]]; then
@@ -123,7 +123,7 @@ runs:
             echo "channel=stable" >> "$GITHUB_OUTPUT"
           fi
         else
-          # 未知 type、或远端旧版 helper 未识别 mc_fd 等：仍须输出 channel，避免 version-push 读到空路径 /tmp/version/.json
+          # 未知 type：仍须输出 channel，避免 version-push 读到空路径 /tmp/version/.json
           echo "channel=dev" >> "$GITHUB_OUTPUT"
         fi
 
@@ -147,7 +147,7 @@ runs:
             echo "publish=false" >> "$GITHUB_OUTPUT"
           fi
 
-        elif [[ "$INPUTS_TYPE" == "mc_bd" ]] || [[ "$INPUTS_TYPE" == "mc_fd" ]]; then
+        elif [[ "$INPUTS_TYPE" =~ (mc_bd|mc_fd|landingpage) ]]; then
           if [[ "$EVENT_NAME" == "release" ]]; then
             echo "publish=true" >> "$GITHUB_OUTPUT"
           else
