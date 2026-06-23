@@ -12,7 +12,7 @@ jobs:
     name: jq
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7
       
       - name: Test base
         uses: ./helpers/jq
@@ -27,7 +27,7 @@ jobs:
     name: version
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7
       
       - name: Run action
         id: version
@@ -78,7 +78,7 @@ jobs:
 
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7
 
       - name: Test
         uses: ./helpers/info
